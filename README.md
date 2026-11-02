@@ -4,7 +4,7 @@
 
 *WACV 2027*
 
-![PLS-GS teaser](assets/teaser.png)
+![PLS-GS teaser](teaser.png)
 
 PLS-GS fits a continuous 6D hierarchical Gaussian mixture over LiDAR position and colour,
 and decodes rendering Gaussians in the surface frame of each component, placing primitives
