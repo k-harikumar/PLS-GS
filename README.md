@@ -14,7 +14,7 @@
 </div>
 
 <p align="center">
-  <img src="assets/teaser.png" width="100%">
+  <img src="teaser.png" width="100%">
 </p>
 
 ## Overview
