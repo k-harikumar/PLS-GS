@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PLS-GS: Probabilistic Lidar Scaffolds for Compact, Surface-Aligned Gaussian Splatting. WACV 2027.">
+  <meta name="keywords" content="Gaussian Splatting, LiDAR, Hierarchical Gaussian Mixture Models, 3D Reconstruction, Compact 3D Gaussian Splatting">
+  <title>PLS-GS: Probabilistic Lidar Scaffolds for Compact, Surface-Aligned Gaussian Splatting</title>
+
+  <meta property="og:title" content="PLS-GS: Probabilistic Lidar Scaffolds for Compact, Surface-Aligned Gaussian Splatting">
+  <meta property="og:description" content="A continuous HGMM scaffold from LiDAR for compact, surface-aligned 3D Gaussian Splatting. WACV 2027.">
+  <meta property="og:image" content="static/images/teaser.jpg">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.min.css">
+  <link rel="stylesheet" href="static/css/brands.min.css">
+  <link rel="stylesheet" href="static/css/solid.min.css">
+
+  <style>
+    body { font-family: 'Noto Sans', sans-serif; }
+    .publication-title { font-family: 'Google Sans', sans-serif; }
+    .publication-authors { font-family: 'Google Sans', sans-serif; }
+    .publication-venue { color: #555; font-weight: 600; margin-top: .5rem; }
+    .publication-authors a { color: hsl(204, 86%, 53%) !important; }
+    .author-block { display: inline-block; }
+    .link-block a { margin-top: 5px; margin-bottom: 5px; }
+    .title.is-3 { font-family: 'Google Sans', sans-serif; }
+    .figure-caption { font-size: .95rem; color: #4a4a4a; margin-top: .6rem; text-align: left; }
+    .section { padding: 2.5rem 1.5rem; }
+    figure img { width: 100%; height: auto; }
+    .results-table { font-size: .9rem; margin: 0 auto; }
+    .results-table th, .results-table td { text-align: center !important; vertical-align: middle; white-space: nowrap; }
+    .results-table td:first-child, .results-table th:first-child { text-align: left !important; }
+    .table-container { overflow-x: auto; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+    .footer { padding: 2rem 1.5rem; }
+    .fig-block { margin: 0 auto 2.5rem; }
+    .fig-narrow { max-width: 640px; }
+    @media (max-width: 768px) { .publication-title.title.is-2 { font-size: 1.75rem; } }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title"><em>PLS-GS</em>: Probabilistic Lidar Scaffolds for<br>Compact, Surface-Aligned Gaussian Splatting</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Krishnan Harikumar<sup>1</sup>,</span>
+            <span class="author-block">Alejandro Fontan<sup>1</sup>,</span>
+            <span class="author-block">Thierry Peynot<sup>1</sup>,</span>
+            <span class="author-block">Emili Hernández<sup>2</sup>,</span>
+            <span class="author-block">Niko Sünderhauf<sup>1</sup></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>QUT Centre for Robotics</span>&nbsp;&nbsp;
+            <span class="author-block"><sup>2</sup>Emesent</span>
+          </div>
+          <div class="is-size-5 publication-venue">WACV 2027</div>
+
+          <div class="publication-links" style="margin-top:1rem">
+            <!-- TODO: replace href with https://arxiv.org/abs/<ID> and button text with "arXiv" once announced -->
+            <span class="link-block">
+              <a href="#" class="button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-file-pdf"></i></span><span>arXiv (soon)</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://github.com/k-harikumar/PLS-GS" class="button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body" style="padding-top:0">
+      <figure>
+        <img src="static/images/teaser.jpg" alt="PLS-GS teaser: LiDAR point cloud, 6D HGMM scaffold, PLS-GS and Scaffold-GS (LiDAR) renders on the College scene">
+      </figure>
+      <p class="figure-caption"><strong>PLS-GS produces compact, surface-aligned scaffolds that place primitives closer to the measured surface.</strong> From the LiDAR point cloud and SfM input we build a continuous 6D HGMM scaffold whose anchors are surface-aligned, in contrast to the unstructured anchor set of Scaffold-GS. PLS-GS renders at 35% of the model size of the LiDAR-initialized baseline, with higher precision and lower Chamfer distance.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>While 3D Gaussian Splatting (3DGS) is typically optimized from images only, many robotics and mapping applications provide both camera and high-definition LiDAR data, combining rich visual appearance with accurate geometric structure. We introduce PLS-GS, a probabilistic LiDAR scaffold for Gaussian Splatting that exploits this complementary sensing setting to construct a compact 3DGS representation aligned to the measured surface. PLS-GS fits a Hierarchical Gaussian Mixture Model jointly over position and color, yielding a continuous and adaptive scaffold that eliminates the need for discrete scene partitioning such as voxel grids or octrees. The fitted mixture then guides the renderable 3DGS Gaussians: each rendering Gaussian is associated with a GMM component and constrained in the local surface frame induced by that component's covariance. A Mahalanobis support loss bounds the deviation of the rendering Gaussians from the corresponding LiDAR-derived surface. Across five large outdoor scenes, PLS-GS places primitives markedly closer to the LiDAR measurements than both image- and LiDAR-initialized baselines, while employing substantially fewer primitives, yielding a considerably more compact model and faster rendering. At matched capacity, PLS-GS places primitives closer to the LiDAR measurements, with comparable rendering quality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <div>
+      <div class="fig-block fig-narrow">
+        <figure><img src="static/images/anchor.png" alt="Scaffold-GS anchor versus PLS-GS surface-aligned anchor"></figure>
+        <p class="figure-caption"><strong>Surface-aligned anchors.</strong> Scaffold-GS (left) anchors neural Gaussians at a point with world-axis offsets; PLS-GS (right) anchors them in the mixture component's eigenvector frame, aligning their spread with the local surface. A Mahalanobis support loss keeps them close to it.</p>
+      </div>
+      <div class="fig-block fig-narrow" style="max-width:760px">
+        <figure><img src="static/images/growth.png" alt="HGMM-based anchor growth over training cycles"></figure>
+        <p class="figure-caption"><strong>HGMM-based anchor growth.</strong> Neural Gaussians spawned in regions left uncovered by the scaffold accumulate high photometric residual (blue). A local HGMM is fitted to them and its leaf components become new anchors (green), so uncovered regions shrink progressively over training.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+    <p class="has-text-centered" style="margin-bottom:1rem">Mean over the five GauU-Scene V2 scenes. Both baselines are Scaffold-GS at its published configuration, differing only in the initialization cloud. Best in <strong>bold</strong>; per-scene results are in the paper.</p>
+    <div class="table-container">
+      <table class="table is-striped is-hoverable results-table">
+        <thead>
+          <tr><th>Method</th><th>Anchors</th><th>PSNR↑</th><th>SSIM↑</th><th>LPIPS↓</th><th>Precision↑</th><th>Recall↑</th><th>F1↑</th><th>Chamfer↓</th><th>FPS↑</th><th>Train</th><th>Size (MB)↓</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Scaffold-GS (SfM)</td><td>1368K</td><td><strong>27.10</strong></td><td><strong>0.864</strong></td><td><strong>0.157</strong></td><td>0.312</td><td>0.189</td><td>0.234</td><td>0.899</td><td>114.0</td><td>25:47</td><td>432.5</td></tr>
+          <tr><td>Scaffold-GS (LiDAR)</td><td>1308K</td><td>26.48</td><td>0.855</td><td>0.161</td><td>0.330</td><td><strong>0.245</strong></td><td><strong>0.279</strong></td><td>0.820</td><td>114.4</td><td>25:09</td><td>413.2</td></tr>
+          <tr><td><strong>PLS-GS</strong></td><td>460K</td><td>25.45</td><td>0.817</td><td>0.217</td><td><strong>0.484</strong></td><td>0.191</td><td>0.269</td><td><strong>0.703</strong></td><td><strong>190.4</strong></td><td><strong>17:45</strong></td><td><strong>172.9</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:2.5rem">
+      <div class="fig-block">
+        <figure><img src="static/images/qualitative.jpg" alt="Qualitative comparison on the College scene"></figure>
+        <p class="figure-caption"><strong>Matched capacity.</strong> Held-out views on the College scene rendered by PLS-GS and by Scaffold-GS initialized from the same anchors. With identical anchor sets the two render comparably, while PLS-GS places primitives closer to the LiDAR measurements.</p>
+      </div>
+      <div class="fig-block fig-narrow" style="max-width:760px">
+        <figure><img src="static/images/geometry.png" alt="Precision-recall, F1, precision vs threshold and error distribution on the College scene"></figure>
+        <p class="figure-caption"><strong>Geometric alignment on the College scene.</strong> PLS-GS (red) against the LiDAR-initialized baseline (blue) and that baseline at matched capacity (green). Stars mark the per-scene operating threshold.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop has-text-centered">
+    <h2 class="title is-3">Code</h2>
+    <p>Code release is in preparation and coming soon at <a href="https://github.com/k-harikumar/PLS-GS">github.com/k-harikumar/PLS-GS</a>.</p>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@inproceedings{harikumar2027plsgs,
+  title     = {{PLS-GS}: Probabilistic Lidar Scaffolds for Compact, Surface-Aligned Gaussian Splatting},
+  author    = {Harikumar, Krishnan and Fontan, Alejandro and Peynot, Thierry and Hern{\'a}ndez, Emili and S{\"u}nderhauf, Niko},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year      = {2027}
+}</code></pre>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">Acknowledgements</h2>
+    <p>This work was supported by the Australian Research Council Research Hub in Intelligent Robotic Systems for Real-Time Asset Management (ARIAM) (IH210100030) and Emesent. The authors acknowledge the ongoing support from the Queensland University of Technology (QUT) Centre for Robotics.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      It is adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page template.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
