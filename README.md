@@ -8,8 +8,10 @@
 
 <sup>1</sup>QUT Centre for Robotics &nbsp;&nbsp; <sup>2</sup>Emesent
 
-[![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b.svg)](#)
-[![Project Page](https://img.shields.io/badge/Project-Page-blue.svg)](#)
+
+
+[![arXiv](https://img.shields.io/badge/arXiv-2611.10699-b31b1b.svg)](https://arxiv.org/abs/2611.10699)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue.svg)](https://k-harikumar.github.io/PLS-GS/)
 
 </div>
 
